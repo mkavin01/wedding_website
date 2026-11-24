@@ -872,7 +872,26 @@ section.offscreen *,header.offscreen *{animation-play-state:paused!important}
     tas.addEventListener('pointermove',function(e){if(!drag)return;set(Math.max(0,Math.min(1,o0+(e.clientY-y0)/H)));});
     function end(){if(!drag)return;drag=false;tas.classList.remove('drag');if(o>.3||o<.02)reveal();else to(0);}
     tas.addEventListener('pointerup',end);tas.addEventListener('pointercancel',end);
-    tas.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();reveal();}});})();
+    tas.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();reveal();}});
+
+    /* missed the tassel? once the visitor scrolls past it, show the date automatically */
+    function autoShow(){
+      if(done||drag)return;
+      done=true;cancelAnimationFrame(anim);
+      hand.classList.add('off');
+      tip.textContent='See you on Friday, 12 February 2027';   // keep the same text as in reveal()
+      set(1);
+      document.getElementById('after').classList.add('on');
+    }
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(es){
+        es.forEach(function(e){if(!e.isIntersecting&&e.boundingClientRect.bottom<0)autoShow();});
+      }).observe(box);
+    }else{
+      addEventListener('scroll',function(){if(box.getBoundingClientRect().bottom<0)autoShow();},{passive:true});
+    }
+    })();
+              
 
   var target=new Date('2027-02-18T22:30:00+05:30').getTime();
   function pad(n){return n<10?'0'+n:''+n;}
