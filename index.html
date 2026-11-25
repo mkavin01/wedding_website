@@ -893,7 +893,7 @@ section.offscreen *,header.offscreen *{animation-play-state:paused!important}
     })();
               
 
-  var target=new Date('2027-02-18T22:30:00+05:30').getTime();
+  var target = new Date('2027-02-18T00:00:00+05:30').getTime();
   function pad(n){return n<10?'0'+n:''+n;}
   function tc(){var s=Math.floor(Math.max(0,target-Date.now())/1000);
     document.getElementById('cd-d').textContent=Math.floor(s/86400);document.getElementById('cd-h').textContent=pad(Math.floor(s%86400/3600));
